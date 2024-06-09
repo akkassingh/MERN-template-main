@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: akkassingh/ideaflow-app:nginx-latest
+    restart: always
+    depends_on:
+      - client
+      - server
+    ports:
+      - "80:80"
+
+  client:
+    image: akkassingh/ideaflow:client-latest
+    environment:
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}      
+
+  server:
+    image: akkassingh/ideaflow:server-latest .
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=${PORT}
+      - NODE_ENV=${NODE_ENV}
